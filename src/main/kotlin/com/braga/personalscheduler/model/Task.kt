@@ -1,7 +1,5 @@
 package com.braga.personalscheduler.model
 
-import com.fasterxml.jackson.annotation.JsonIgnore
-import javafx.util.Builder
 import java.time.LocalDateTime
 import javax.persistence.*
 import javax.validation.constraints.NotEmpty

@@ -1,6 +1,7 @@
 package com.braga.personalscheduler.model
 
-import org.hibernate.annotations.GeneratorType
+import com.fasterxml.jackson.annotation.JsonIgnore
+import javafx.util.Builder
 import java.time.LocalDateTime
 import javax.persistence.*
 import javax.validation.constraints.NotEmpty
@@ -11,19 +12,18 @@ data class Task (
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Long,
+        var id: Long? = null,
 
         @NotEmpty
         @Size(max = 80)
-        val description: String,
+        var description: String? = null,
 
         @Column(name = "LAST_UPDATE")
-        val lastUpdate: LocalDateTime = LocalDateTime.now(),
+        var lastUpdate: LocalDateTime? = LocalDateTime.now(),
 
         @Column(name = "CREATED_AT")
-        val createdAt: LocalDateTime = LocalDateTime.now(),
+        var createdAt: LocalDateTime?  = LocalDateTime.now(),
 
         @Column(name = "IS_DONE")
-        val isDone: Boolean = false
-
+        var isDone: Boolean? = false
 )

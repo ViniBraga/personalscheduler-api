@@ -4,11 +4,10 @@ buildscript {
 		springBootVersion = '2.1.2.RELEASE'
 	}
 	repositories {
-//		mavenCentral()
-		maven {
-			url 'https://artifactory.intra.rs.gov.br/artifactory/plugins-release'
-
-		}
+		mavenCentral()
+//		maven {
+//			url 'https://artifactory.intra.rs.gov.br/artifactory/plugins-release'
+//		}
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
@@ -29,17 +28,16 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
 repositories {
-//	mavenCentral()
-	maven {
-		url 'https://artifactory.intra.rs.gov.br/artifactory/plugins-release'
-
-	}
+	mavenCentral()
+//	maven {
+//		url 'https://artifactory.intra.rs.gov.br/artifactory/plugins-release'
+//	}
 }
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
+	implementation 'com.fasterxml.jackson.model:jackson-model-kotlin'
 //	implementation 'org.flywaydb:flyway-core'
 	implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 	implementation "org.jetbrains.kotlin:kotlin-reflect"

@@ -24,6 +24,12 @@ class TaskController {
     @ResponseStatus(HttpStatus.CREATED)
     fun addTask(@Valid @RequestBody task: Task) :Task {
         task.id = null
+        var lastPosition: Long = 0
+        var maxPositionTask = taskRepository.findMaxPosition()
+        if(maxPositionTask.isPresent) {
+            //lastPosition = maxPositionTask.get().position
+        }
+        task.position = lastPosition + 1
         return taskRepository.save(task)
     }
 
@@ -43,6 +49,7 @@ class TaskController {
     fun deleteTask(@PathVariable id: Long) {
         val existingTask: Optional<Task> = taskRepository.findById(id)
         if (existingTask.isPresent) {
+            var position = existingTask.get().position
             this.taskRepository.deleteById(id)
         } else {
             throw ResponseStatusException(HttpStatus.NOT_FOUND)

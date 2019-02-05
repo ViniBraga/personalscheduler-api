@@ -23,5 +23,8 @@ data class Task (
         var createdAt: LocalDateTime?  = LocalDateTime.now(),
 
         @Column(name = "IS_DONE")
-        var isDone: Boolean? = false
+        var isDone: Boolean? = false,
+
+        var position: Long? = null
+
 )

@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
 import java.util.*
+import java.util.stream.Collector
+import java.util.stream.Collectors
 import javax.validation.Valid
 
 @CrossOrigin
@@ -18,18 +20,12 @@ class TaskController {
     lateinit var taskRepository: TaskRepository
 
     @GetMapping()
-    fun listTasks() = taskRepository.findAll()
+    fun listTasks() = taskRepository.findAllByOrderByPosition()
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun addTask(@Valid @RequestBody task: Task) :Task {
         task.id = null
-        var lastPosition: Long = 0
-        var maxPositionTask = taskRepository.findMaxPosition()
-        if(maxPositionTask.isPresent) {
-            //lastPosition = maxPositionTask.get().position
-        }
-        task.position = lastPosition + 1
         return taskRepository.save(task)
     }
 
@@ -44,12 +40,26 @@ class TaskController {
         throw ResponseStatusException(HttpStatus.NOT_FOUND)
     }
 
+    @PutMapping("/all")
+    @ResponseStatus(HttpStatus.OK)
+    fun updateTasks(@Valid @RequestBody tasks: List<Task>) {
+        tasks.forEach {task: Task ->
+            val existingTask: Optional<Task> = taskRepository.findById(task.id!!)
+            if (existingTask.isPresent) {
+                task.createdAt = existingTask.get().createdAt
+                taskRepository.save(task)
+            } else {
+                task.id = null;
+                taskRepository.save(task)
+            }
+        }
+    }
+
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     fun deleteTask(@PathVariable id: Long) {
         val existingTask: Optional<Task> = taskRepository.findById(id)
         if (existingTask.isPresent) {
-            var position = existingTask.get().position
             this.taskRepository.deleteById(id)
         } else {
             throw ResponseStatusException(HttpStatus.NOT_FOUND)

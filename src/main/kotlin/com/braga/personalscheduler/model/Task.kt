@@ -25,6 +25,7 @@ data class Task (
         @Column(name = "IS_DONE")
         var isDone: Boolean? = false,
 
+        @Column(name = "POSITION")
         var position: Long? = null
 
 )
